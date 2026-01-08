@@ -1,5 +1,5 @@
 /**
- * Definuej databázi pravidel.
+ * Definuje databázi pravidel.
  */
 export function getRawDatabase() {
     return {
@@ -820,4 +820,5 @@ export function getRawDatabase() {
                 }
             ]
     };
+
 }
