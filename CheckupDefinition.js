@@ -293,8 +293,8 @@ export function getRawDatabase() {
                 {
                     exam: {
                         name: "Glykemie", reqExams: ["L_GLU"],
-                        minAge: 30, maxAge: 39,
-                        repetition: [{ text: "Každé 4 roky.", intDays: 1430 }]
+                        minAge: 18, maxAge: 39,
+                        repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
                     }
                 },
                 {
@@ -820,5 +820,4 @@ export function getRawDatabase() {
                 }
             ]
     };
-
 }
