@@ -38,6 +38,38 @@ export function getRawDatabase() {
             poctExams: [],
             auxExams: [],
 
+            /* Definice kategorií rizika dle diagnóz MKN10 (ICD) - používá se pro definici rizik pacienta dle jeho trvalých diagnóz
+            'catCode' se užívá pro parametry podmínek 'cond' a 'conds' 
+            Kategorii je možno definovat: 
+            - jako diagnózu bez tečky I259
+            - skupinu diagnóz - kódem se zástupným znakem E10*
+            - rozsah diagnóz od prvního do posledního kódu dg. E10*-E14*
+            */
+            riskCats:[
+                {
+                    "catName": "Diabetes Mellitus",                                 // Anglický název
+                    "catCode": "DM",                                                // Standardní anglická zkratka (musí být unikátní), používá se jako kód pro parametry podmínek 'cond' a 'conds'
+                    "catDescription": "Cukrovka (poruchy metabolismu glukózy)",     // Popis
+                    "catContent": [
+                    {
+                        "icdRange": "E10*",
+                        "description": "Diabetes mellitus 1. typu (závislý na inzulinu)",
+                        "significance": "Vysoké riziko mikrovaskulárních komplikací"
+                    },
+                    {
+                        "icdRange": "E11*",
+                        "description": "Diabetes mellitus 2. typu (nezávislý na inzulinu)",
+                        "significance": "Nejčastější metabolické riziko pro KVO v populaci"
+                    },
+                    {
+                        "icdRange": "E13*-E14*",
+                        "description": "Jiný typ diabetu mellitu, určený či neurčený",
+                        "significance": "Specifické typy diabetu"
+                    }
+                    ]
+                }
+            ],        
+
             // Výchozí interval opakování v dnech, pokud není u konkrétního prvku uvedeno jinak
             genRepIntDays: 700
         },

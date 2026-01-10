@@ -234,6 +234,46 @@ export function getRawDatabase() {
                     ]
                 }
             ],
+            /* Definice kategorií rizika dle diagnóz MKN10 (ICD)
+            Kategorii je možno definovat: 
+            - jako diagnózu bez tečky I259
+            - skupinu diagnóz - kódem se zástupným znakem E10*
+            - rozsah diagnóz od prvního do posledního kódu dg. E10*-E14*
+            */
+            riskCats:[
+                {
+                    "catCode": "DM", "catName": "Diabetes Mellitus", "catDescription": "Cukrovka (poruchy metabolismu glukózy)",
+                    "catContent": [
+                        { "icdRange": "E10*", "description": "Diabetes mellitus 1. typu (závislý na inzulinu)", "significance": "Vysoké riziko mikrovaskulárních komplikací" },
+                        { "icdRange": "E11*", "description": "Diabetes mellitus 2. typu (nezávislý na inzulinu)", "significance": "Nejčastější metabolické riziko pro KVO v populaci" },
+                        { "icdRange": "E13*", "description": "Jiný určený diabetes mellitus", "significance": "Specifické typy diabetu" },
+                        { "icdRange": "E14*", "description": "Neurčený diabetes mellitus", "significance": "Často používáno, pokud není typ ještě došetřen" }
+                    ]
+                },
+                {
+                    "catCode": "HTN", "catName": "Hypertension", "catDescription": "Arteriální hypertenze (Vysoký krevní tlak)",
+                    "catContent": [
+                        { "icdRange": "I10*", "description": "Esenciální (primární) hypertenze", "significance": "Základní diagnóza vysokého tlaku bez zjevné příčiny" },
+                        { "icdRange": "I11*", "description": "Hypertenzní nemoc srdce", "significance": "Pokročilé stádium - hypertenze již poškodila srdce" },
+                        { "icdRange": "I12*", "description": "Hypertenzní nemoc ledvin", "significance": "Riziko selhání ledvin vlivem tlaku" },
+                        { "icdRange": "I13*", "description": "Hypertenzní nemoc srdce a ledvin souběžně", "significance": "Kombinované orgánové poškození" },
+                        { "icdRange": "I15*", "description": "Sekundární hypertenze", "significance": "Vysoký tlak způsobený jinou nemocí (hormony, cévy)" }
+                    ]
+                },
+                {
+                    "catCode": "CVD", "catName": "Cardiovascular Diseases", "catDescription": "Kardiovaskulární onemocnění (Srdečně-cévní choroby)",
+                    "catContent": [
+                        { "icdRange": "I20*", "description": "Angina pectoris", "significance": "Varovný signál ischemie myokardu" },
+                        { "icdRange": "I21*", "description": "Akutní infarkt myokardu", "significance": "Anamnéza prodělaného IM je zásadní rizikový faktor" },
+                        { "icdRange": "I25*", "description": "Chronická ischemická choroba srdeční (vč. I25.9)", "significance": "Dlouhodobé riziko ischemie" },
+                        { "icdRange": "I48*", "description": "Fibrilace a flutter síní", "significance": "Vysoké riziko trombózy a následné mrtvice" },
+                        { "icdRange": "I50*", "description": "Srdeční selhání", "significance": "Terminální stádium mnoha KVO chorob" },
+                        { "icdRange": "I64*", "description": "Cévní mozková příhoda (mrtvice) neurčená", "significance": "Anamnéza CMP dramaticky zvyšuje riziko recidivy" },
+                        { "icdRange": "I65*", "description": "Uzavření a zúžení přívodných mozkových tepen", "significance": "Riziko budoucí mrtvice (stenózy karotid)" },
+                        { "icdRange": "I70*", "description": "Ateroskleróza", "significance": "Zkornatění tepen (často dolních končetin - ICHDK)" }
+                    ]
+                }
+            ],
             genRepIntDays: 700
         },
 
@@ -340,6 +380,14 @@ export function getRawDatabase() {
                 },
                 {
                     exam: {
+                        name: "Vyšetření funkce ledvin (ACR, kreatinin, eGFR) u pacientů s DM, HTN nebo KVO",
+                        reqExams: ["L_ACR", "L_KREA", "L_EGFR"],
+                        minAge: 18, maxAge: 49, conds: ["CVrisk", "DM", "HT", "CVD"],
+                        repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
+                    }
+                },             
+                {
+                    exam: {
                         name: "Vyšetření funkce ledvin (ACR, kreatinin, eGFR)", reqExams: ["L_ACR", "L_KREA", "L_EGFR"],
                         minAge: 50, maxAge: Infinity,
                         repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
@@ -347,11 +395,19 @@ export function getRawDatabase() {
                 },
                 {
                     exam: {
-                        name: "Stanovení NT-proBNP při riziku srdečního selhání", reqExams: ["L_NTBNP"],
-                        minAge: 50, maxAge: Infinity,
+                        name: "Stanovení NT-proBNP při riziku srdečního selhání (2+ rizikové faktory)", reqExams: ["L_NTBNP"],
+                        minAge: 50, maxAge: 59,
+                        repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
+                    }
+                },
+                {
+                    exam: {
+                        name: "Stanovení NT-proBNP při riziku srdečního selhání (1+ rizikový faktor)", reqExams: ["L_NTBNP"],
+                        minAge: 60, maxAge: Infinity,
                         repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
                     }
                 }
+
             ]
         },
         screenings: [ // možno doplnit [SCREENING_DATE] do termNote
@@ -361,7 +417,7 @@ export function getRawDatabase() {
                 minAge: 45, maxAge: 69, gender: "female",
                 genRepIntDays: 700,
                 billing: {
-                    mkn: ["Z123"],
+                    icd: ["Z123"],
                     codes: [
                         { code: undefined, description: "PL ověřuje absolvování, nevykazuje vlastní kód.", signal: false }
                     ]
@@ -373,7 +429,7 @@ export function getRawDatabase() {
                 minAge: 50, maxAge: 69, gender: "male",
                 genRepIntDays: 700,
                 billing: {
-                    mkn: ["Z125"],
+                    icd: ["Z125"],
                     codes: [
                         { code: "01130", description: "management", signal: false },
                         { code: "01131", description: "PSA < 1", signal: true, repIntDays: 1430 },
@@ -390,7 +446,7 @@ export function getRawDatabase() {
                 genRepIntDays: 700,
                 note: "Lze nahradit screeningovou kolonoskopií - každých 10 let při negativním výsledku.",
                 billing: {
-                    mkn: ["Z121"],
+                    icd: ["Z121"],
                     codes: [
                         { code: "15118", description: "management", signal: false },
                         { code: "15119", description: "POCT provedení", signal: false },
@@ -405,7 +461,7 @@ export function getRawDatabase() {
                 minAge: 55, maxAge: 74, gender: "all",
                 note: "Pouze pro kuřáky/bývalé kuřáky s 20+ balíčkoroky.",
                 billing: {
-                    mkn: ["Z122"],
+                    icd: ["Z122"],
                     codes: [
                         { code: "01196", description: "zahájení", signal: false, termination: true, termNote: "Screening ukončen pozitivním nálezem - ověřit provedení LDCT a následné sledování." },
                         { code: "01197", description: "odmítnutí", signal: false, termination: false, repIntDays: 700 }
@@ -417,7 +473,7 @@ export function getRawDatabase() {
                 name: "Screening aneurysmatu břišní aorty (AAA)",
                 minAge: 65, maxAge: 67, gender: "male",
                 billing: {
-                    mkn: ["Z136"],
+                    icd: ["Z136"],
                     codes: [
                         { code: "01135", description: "management se sledováním", signal: false },
                         {
@@ -441,7 +497,7 @@ export function getRawDatabase() {
                 name: "Screening demence (MiniCog/MMSE)",
                 minAge: 65, maxAge: 80, gender: "all",
                 billing: {
-                    mkn: ["Z000", "F03"],
+                    icd: ["Z000", "F03"],
                     codes: [
                         { code: "01026", description: "MiniCog", signal: false, repIntDays: 700 },
                         { code: "01210", description: "MMSE", signal: false, repIntDays: 700 }
@@ -454,7 +510,7 @@ export function getRawDatabase() {
                 minAge: 45, maxAge: 59, gender: "female",
                 note: "Ženy 45-59 - FRAX",
                 billing: {
-                    mkn: ["Z138", "M819"],
+                    icd: ["Z138", "M819"],
                     codes: [
                         {
                             code: "11320", description: "management, indikováno DXA", signal: false, termination: true,
@@ -470,7 +526,7 @@ export function getRawDatabase() {
                 minAge: 60, maxAge: Infinity, gender: "female",
                 note: "Ženy >60 - DXA",
                 billing: {
-                    mkn: ["Z138", "M819"],
+                    icd: ["Z138", "M819"],
                     codes: [
                         {
                             code: "11320", description: "management, indikováno DXA", signal: false, termination: true,
@@ -485,7 +541,7 @@ export function getRawDatabase() {
                 minAge: 65, maxAge: 69, gender: "male",
                 note: "Muži 65-69 FRAX",
                 billing: {
-                    mkn: ["Z138", "M819"],
+                    icd: ["Z138", "M819"],
                     codes: [
                         {
                             code: "11320", description: "management, indikováno DXA", signal: false, termination: true,
@@ -501,7 +557,7 @@ export function getRawDatabase() {
                 minAge: 70, maxAge: Infinity, gender: "male",
                 note: "Muži >70 DXA",
                 billing: {
-                    mkn: ["Z138", "M819"],
+                    icd: ["Z138", "M819"],
                     codes: [
                         { code: "11320", description: "management, indikováno DXA", signal: true, termination: true },
                     ]
@@ -528,7 +584,7 @@ export function getRawDatabase() {
                     reimbursementNote: "Plně hrazeno z veřejného zdravotního pojištění.",
                     note: "Schéma: 1 dávka, přeočkování dle aktuálních doporučení.",
                     billing: {
-                        mkn: "Z25.8",
+                        icd: "Z25.8",
                         codes: "99936 (Pfizer), 99937 (Moderna), 99935 (Novavax)",
                         zulp: "Nevyplňuje se"
                     },
