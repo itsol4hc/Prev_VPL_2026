@@ -242,6 +242,18 @@ export function getRawDatabase() {
             */
             riskCats:[
                 {
+                    "catCode": "CVrisk", "catName": "Cardivascular Risk Factors", "catDescription": "Rizikové faktory KVO (Metabolické a behaviorální)",
+                    "catContent": [
+                        { "icdRange": "E10*-E14*", "description": "Diabetes mellitus (všechny typy)", "significance": "Cukrovka je silný nezávislý rizikový faktor, urychluje aterosklerózu a poškozuje cévní stěny" },
+                        { "icdRange": "E66*", "description": "Obezita a nadváha", "significance": "Viscerální tuk zvyšuje systémový zánět, inzulinovou rezistenci a zátěž myokardu" },
+                        { "icdRange": "E78*", "description": "Poruchy metabolismu lipoproteinů (Dyslipidemie)", "significance": "Vysoký cholesterol (LDL) a triglyceridy tvoří aterosklerotické pláty" },
+                        { "icdRange": "F17*", "description": "Poruchy způsobené užíváním tabáku (Kouření)", "significance": "Kouření poškozuje endotel cév a zvyšuje náchylnost k trombóze" },
+                        { "icdRange": "I10*-I15*", "description": "Hypertenzní nemoci", "significance": "Trvalé zvýšení tlaku je hlavním akcelerátorem aterosklerózy a poškození orgánů" },
+                        { "icdRange": "R73*", "description": "Zvýšená hladina glukózy v krvi (Prediabetes)", "significance": "Hraniční glykemie signalizující riziko rozvoje diabetu a cévních změn" },
+                        { "icdRange": "Z72*-Z724", "description": "Problémy spojené s životním stylem", "significance": "Zahrnuje aktivní kouření (Z72.0) i nedostatek pohybu/sedavý styl (Z72.3)" }
+                    ]                    
+                },                
+                {
                     "catCode": "DM", "catName": "Diabetes Mellitus", "catDescription": "Cukrovka (poruchy metabolismu glukózy)",
                     "catContent": [
                         { "icdRange": "E10*", "description": "Diabetes mellitus 1. typu (závislý na inzulinu)", "significance": "Vysoké riziko mikrovaskulárních komplikací" },
@@ -382,7 +394,7 @@ export function getRawDatabase() {
                     exam: {
                         name: "Vyšetření funkce ledvin (ACR, kreatinin, eGFR) u pacientů s DM, HTN nebo KVO",
                         reqExams: ["L_ACR", "L_KREA", "L_EGFR"],
-                        minAge: 18, maxAge: 49, conds: ["CVrisk", "DM", "HT", "CVD"],
+                        minAge: 18, maxAge: 49, conds: ["CVrisk", "DM", "HTN", "CVD"],
                         repetition: [{ text: "Každé 2 roky.", intDays: 700 }]
                     }
                 },             
