@@ -240,49 +240,39 @@ export function getRawDatabase() {
             - skupinu diagnóz - kódem se zástupným znakem E10*
             - rozsah diagnóz od prvního do posledního kódu dg. E10*-E14*
             */
-            riskCats:[
+        riskCats: [
                 {
-                    "catCode": "CVrisk", "catName": "Cardivascular Risk Factors", "catDescription": "Rizikové faktory KVO (Metabolické a behaviorální)",
+                    "catCode": "CVrisk", "catName": "CV Risk Factors", "catDescription": "Souhrnné rizikové faktory KVO",
                     "catContent": [
-                        { "icdRange": "E10*-E14*", "description": "Diabetes mellitus (všechny typy)", "significance": "Cukrovka je silný nezávislý rizikový faktor, urychluje aterosklerózu a poškozuje cévní stěny" },
-                        { "icdRange": "E66*", "description": "Obezita a nadváha", "significance": "Viscerální tuk zvyšuje systémový zánět, inzulinovou rezistenci a zátěž myokardu" },
-                        { "icdRange": "E78*", "description": "Poruchy metabolismu lipoproteinů (Dyslipidemie)", "significance": "Vysoký cholesterol (LDL) a triglyceridy tvoří aterosklerotické pláty" },
-                        { "icdRange": "F17*", "description": "Poruchy způsobené užíváním tabáku (Kouření)", "significance": "Kouření poškozuje endotel cév a zvyšuje náchylnost k trombóze" },
-                        { "icdRange": "I10*-I15*", "description": "Hypertenzní nemoci", "significance": "Trvalé zvýšení tlaku je hlavním akcelerátorem aterosklerózy a poškození orgánů" },
-                        { "icdRange": "R73*", "description": "Zvýšená hladina glukózy v krvi (Prediabetes)", "significance": "Hraniční glykemie signalizující riziko rozvoje diabetu a cévních změn" },
-                        { "icdRange": "Z72*-Z724", "description": "Problémy spojené s životním stylem", "significance": "Zahrnuje aktivní kouření (Z72.0) i nedostatek pohybu/sedavý styl (Z72.3)" }
-                    ]                    
-                },                
+                        { "icdRange": "I10*-I15*", "description": "Hypertenzní nemoci", "notes": "Zahrnuje esenciální, sekundární hypertenzi i hypertenzní nemoci srdce a ledvin" },
+                        { "icdRange": "E10*-E14*", "description": "Diabetes mellitus", "notes": "Zahrnuje DM 1. typu, 2. typu i ostatní specifické formy" },
+                        { "icdRange": "E78*", "description": "Dyslipidemie", "notes": "Zahrnuje čistou hypercholesterolemii, hyperglyceridemii, smíšené hyperlipidemie i deficity lipoproteinů (např. nízký HDL)." },
+                        { "icdRange": "E66*", "description": "Obezita", "notes": "Viscerální tuk, zánět a metabolická zátěž" },
+                        { "icdRange": "F17*", "description": "Kouření (Závislost)", "notes": "Poškození cévní stěny, pro-trombotický stav" },
+                        { "icdRange": "R73*", "description": "Zvýšená glykemie (Prediabetes)", "notes": "Signál inzulinové rezistence" },
+                        { "icdRange": "Z720-Z724", "description": "Rizikový životní styl (KVO relevantní)", "notes": "Pouze: Tabák, alkohol, drogy, nedostatek pohybu, nevhodná dieta" }
+                    ]
+                },
                 {
                     "catCode": "DM", "catName": "Diabetes Mellitus", "catDescription": "Cukrovka (poruchy metabolismu glukózy)",
                     "catContent": [
-                        { "icdRange": "E10*", "description": "Diabetes mellitus 1. typu (závislý na inzulinu)", "significance": "Vysoké riziko mikrovaskulárních komplikací" },
-                        { "icdRange": "E11*", "description": "Diabetes mellitus 2. typu (nezávislý na inzulinu)", "significance": "Nejčastější metabolické riziko pro KVO v populaci" },
-                        { "icdRange": "E13*", "description": "Jiný určený diabetes mellitus", "significance": "Specifické typy diabetu" },
-                        { "icdRange": "E14*", "description": "Neurčený diabetes mellitus", "significance": "Často používáno, pokud není typ ještě došetřen" }
+                        { "icdRange": "E10*-E14*", "description": "Diabetes mellitus", "notes": "Zahrnuje DM 1. typu, 2. typu i ostatní specifické formy" }
                     ]
                 },
                 {
                     "catCode": "HTN", "catName": "Hypertension", "catDescription": "Arteriální hypertenze (Vysoký krevní tlak)",
                     "catContent": [
-                        { "icdRange": "I10*", "description": "Esenciální (primární) hypertenze", "significance": "Základní diagnóza vysokého tlaku bez zjevné příčiny" },
-                        { "icdRange": "I11*", "description": "Hypertenzní nemoc srdce", "significance": "Pokročilé stádium - hypertenze již poškodila srdce" },
-                        { "icdRange": "I12*", "description": "Hypertenzní nemoc ledvin", "significance": "Riziko selhání ledvin vlivem tlaku" },
-                        { "icdRange": "I13*", "description": "Hypertenzní nemoc srdce a ledvin souběžně", "significance": "Kombinované orgánové poškození" },
-                        { "icdRange": "I15*", "description": "Sekundární hypertenze", "significance": "Vysoký tlak způsobený jinou nemocí (hormony, cévy)" }
+                        { "icdRange": "I10*-I15*", "description": "Hypertenzní nemoci", "notes": "Zahrnuje esenciální, sekundární hypertenzi i hypertenzní nemoci srdce a ledvin" }
                     ]
                 },
                 {
-                    "catCode": "CVD", "catName": "Cardiovascular Diseases", "catDescription": "Kardiovaskulární onemocnění (Srdečně-cévní choroby)",
+                    "catCode": "CVD", "catName": "Cardiovascular Diseases", "catDescription": "Existující KVO (Sekundární prevence)",
                     "catContent": [
-                        { "icdRange": "I20*", "description": "Angina pectoris", "significance": "Varovný signál ischemie myokardu" },
-                        { "icdRange": "I21*", "description": "Akutní infarkt myokardu", "significance": "Anamnéza prodělaného IM je zásadní rizikový faktor" },
-                        { "icdRange": "I25*", "description": "Chronická ischemická choroba srdeční (vč. I25.9)", "significance": "Dlouhodobé riziko ischemie" },
-                        { "icdRange": "I48*", "description": "Fibrilace a flutter síní", "significance": "Vysoké riziko trombózy a následné mrtvice" },
-                        { "icdRange": "I50*", "description": "Srdeční selhání", "significance": "Terminální stádium mnoha KVO chorob" },
-                        { "icdRange": "I64*", "description": "Cévní mozková příhoda (mrtvice) neurčená", "significance": "Anamnéza CMP dramaticky zvyšuje riziko recidivy" },
-                        { "icdRange": "I65*", "description": "Uzavření a zúžení přívodných mozkových tepen", "significance": "Riziko budoucí mrtvice (stenózy karotid)" },
-                        { "icdRange": "I70*", "description": "Ateroskleróza", "significance": "Zkornatění tepen (často dolních končetin - ICHDK)" }
+                        { "icdRange": "I20*-I25*", "description": "Ischemické nemoci srdeční", "notes": "Zahrnuje: Anginu pectoris, Akutní infarkt, Chronickou ICHS" },
+                        { "icdRange": "I60*-I69*", "description": "Cévní nemoci mozku (CMP)", "notes": "Zahrnuje: Mrtvice, krvácení, stenózy a následky CMP" },
+                        { "icdRange": "I48*", "description": "Fibrilace a flutter síní", "notes": "Vysoké riziko kardioembolizační příhody" },
+                        { "icdRange": "I50*", "description": "Srdeční selhání", "notes": "Pokročilé stádium poškození srdce jako pumpy" },
+                        { "icdRange": "I70*", "description": "Ateroskleróza (vč. tepen končetin)", "notes": "Generalizované postižení cévního řečiště" }
                     ]
                 }
             ],
